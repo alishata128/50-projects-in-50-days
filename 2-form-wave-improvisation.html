@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Wave Improvisation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: slateblue;
+            font-family: Poppins, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 65%;
+            background: rgba(0, 0, 0, .3);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        .title {
+            color: #fff;
+            font-size: 1.6rem;
+            margin-bottom: auto;
+        }
+
+        .form-control {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .form-control:nth-child(2) {
+            margin-top: 2rem;
+        }
+
+        input {
+            position: relative;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .2));
+            border-radius: 4px 4px 0 0;
+            outline: 0;
+            border: 0;
+            border-bottom: 2px solid lightgray;
+            width: 100%;
+            padding: .5rem;
+            padding-left: 0;
+            color: #fff;
+            font-size: 1.5rem;
+            transition: background .3s ease;
+        }
+
+        label {
+            position: absolute;
+            left: 0;
+            color: lightgray;
+            font-size: 1.25rem;
+        }
+
+        button {
+            background-color: lightskyblue;
+            border: 0;
+            font-family: inherit;
+            width: 75%;
+            padding: .5rem;
+            border-radius: 3rem;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: hsl(248, 46%, 26%);
+            margin-bottom: 1rem;
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: scale .25s ease;
+        }
+
+        button:active {
+            scale: .98;
+            box-shadow: 0 .25rem 1rem rgba(0, 0, 0, .5) inset;
+        }
+
+        input:focus {
+            background-color: rgba(0, 0, 0, .3);
+            border-color: skyblue;
+            z-index: 9999;
+        }
+
+        label:hover {
+            cursor: text;
+        }
+
+        .form-control label span {
+            display: inline-block;
+            transition: transform .3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .form-control input:focus+label,
+        .form-control input:valid+label {
+            background: transparent;
+        }
+
+        .form-control input:focus+label span,
+        .form-control input:valid+label span {
+            transform: translateY(-2.2rem);
+            color: skyblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">Form Wave Input Improvisation</div>
+        <div class="form-control">
+            <input type="text" required>
+            <label for="text">Name</label>
+        </div>
+        <div class="form-control">
+            <input type="email" required>
+            <label for="email">Email</label>
+        </div>
+        <div class="form-control">
+            <input type="password" required>
+            <label for="password">Password</label>
+        </div>
+        <button class="btn">Sign up</button>
+    </div>
+    <script>
+        document.querySelectorAll("label").forEach(label => {
+            label.innerHTML = label.innerText.split("").map((l, idx) => `<span style="transition-delay: ${idx * 150}ms;">${l}</span>`).join("")
+            label.onclick = function () {
+                label.parentElement.children[0].focus()
+            }
+        })
+    </script>
+</body>
+
+</html>
