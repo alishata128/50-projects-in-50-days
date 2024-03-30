@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-scroll-animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #efedd6;
+            font-family: Poppins, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        h1 {
+            margin: 10px;
+        }
+
+        .box {
+            background-color: steelblue;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40%;
+            height: 200px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 5px rgba(0 0 0 / .3);
+            /* transform: translateX(300%); */
+            /* filter: blur(50px); */
+            transform: skew(50deg);
+            transition: transform .4s ease, filter .4s ease;
+        }
+
+        .box:nth-of-type(even) {
+            /* transform: translateX(-300%); */
+        }
+
+        .box.show {
+            filter: blur(0px);
+            transform: skew(0deg);
+            /* transform: translateX(0%); */
+        }
+
+        .box h1 {
+            font-size: 45px;
+        }
+
+        @keyframes show {
+            to {
+                transform: translateX(0%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Scroll to see the animation [js!]</h1>
+    <div class="box" style="--index: 1;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 2;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 3;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 4;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 5;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 6;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 7;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 8;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 9;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 10;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 11;">
+        <h1>Content</h1>
+    </div>
+    <div class="box" style="--index: 12;">
+        <h1>Content</h1>
+    </div>
+    <script>
+        window.addEventListener("scroll", checkBoxes)
+        checkBoxes()
+        function checkBoxes() {
+            // const triggerBottom = window.innerHeight / document.querySelectorAll(".box").length * 2
+            // const triggerBottom = (window.innerHeight / 2) + 100
+            document.querySelectorAll(".box").forEach(box => {
+                // const boxTop = box.getBoundingClientRect().top
+                // if (boxTop < triggerBottom) box.classList.add("show")
+                // else box.classList.remove("show")
+                box.classList.toggle("show", box.getBoundingClientRect().top < innerHeight / 2)
+            })
+        }
+    </script>
+</body>
+
+</html>

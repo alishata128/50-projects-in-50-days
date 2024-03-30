@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rotating-navigation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Poppins, sans-serif;
+            background-color: #222;
+            color: #222;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            background-color: #fff;
+            padding: 50px;
+            min-height: 100vh;
+            width: 100vw;
+            transform-origin: top left;
+            transition: transform .5s linear;
+        }
+
+        .wrapper.show-nav {
+            transform: rotate(-20deg);
+        }
+
+        .circle-wrapper {
+            position: fixed;
+            top: -100px;
+            left: -100px;
+        }
+
+        .circle {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: conic-gradient(#ff7979, #b85151);
+            border-radius: 50%;
+            display: flex;
+            box-shadow: 0 0 50px -10px transparent;
+            transition: .5s linear;
+        }
+
+        .circle:is(:hover, :active, :focus) {
+            box-shadow: 0 0 50px -10px rgb(0 0 0 / .8);
+        }
+
+        .circle button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 100px;
+            background-color: transparent;
+            border: 0;
+            font-size: 26px;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .wrapper.show-nav .circle {
+            transform: rotate(-135deg);
+        }
+
+        .circle button:focus {
+            outline: 0;
+        }
+
+        .circle button#open {
+            left: 60%;
+        }
+
+        .circle button#close {
+            top: 30%;
+            transform: rotate(90deg);
+            transform-origin: top left;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 50px auto;
+        }
+
+        .content img {
+            max-width: 100%;
+            max-height: 100vw;
+        }
+
+        .content h1 {
+            margin: 0;
+        }
+
+        .content small {
+            color: #555;
+            font-style: italic;
+        }
+
+        .content p {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .content h3 {
+            margin-block: 1rem;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            padding-left: 30px;
+        }
+
+        nav ul li {
+            text-transform: uppercase;
+            color: #fff;
+            margin: 40px 0px;
+            transform: translateX(-100%);
+            transition: transform .4s ease-in;
+        }
+
+        nav ul li i {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        nav ul li+li {
+            margin-left: 30px;
+            transform: translateX(-150%);
+        }
+
+        nav ul li+li+li {
+            margin-left: 30px;
+            transform: translateX(-200%);
+        }
+
+        .wrapper.show-nav+nav li {
+            transform: translateX(0%);
+            transition-delay: .3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="circle-wrapper">
+            <div class="circle">
+                <button id="close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <button id="open">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div class="content">
+            <h1>Amazing Article</h1>
+            <small>Ali Shata</small>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur sed neque accusantium sequi, eum
+                necessitatibus quisquam. Est, tempore minima. Pariatur dolore hic sed quia libero nostrum blanditiis
+                provident soluta. Aliquid veritatis recusandae animi! Aut, illum adipisci. Ullam repellat quos excepturi
+                ducimus vero iusto facilis dolore qui, reiciendis laboriosam tempora. Amet explicabo aliquam,
+                praesentium nulla sed blanditiis quasi deserunt ducimus dolorem quisquam, expedita vitae fugiat! Hic
+                repudiandae ipsam rem totam amet ad, adipisci repellendus recusandae! Nisi, quod labore aperiam
+                consequuntur doloribus iusto dignissimos sapiente fugiat, facere asperiores temporibus recusandae.
+                Numquam consequuntur earum esse architecto voluptas exercitationem explicabo cupiditate velit ex beatae.
+            </p>
+            <h3>My Dog</h3>
+            <img src="https://hips.hearstapps.com/hmg-prod/images/wolf-dog-breeds-siberian-husky-1570411330.jpg?crop=1xw:0.84375xh;center,top"
+                alt="">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui, excepturi?</p>
+        </div>
+    </div>
+    <nav>
+        <ul>
+            <li><i class="fas fa-home"></i>Home</li>
+            <li><i class="fas fa-user-alt"></i>About</li>
+            <li><i class="fas fa-envelope"></i>Contact</li>
+        </ul>
+    </nav>
+    <script>
+        document.getElementById("open").onclick = function () {
+            document.querySelector(".wrapper").classList.add("show-nav")
+        }
+        document.getElementById("close").onclick = function () {
+            document.querySelector(".wrapper").classList.remove("show-nav")
+        }
+    </script>
+</body>
+
+</html>

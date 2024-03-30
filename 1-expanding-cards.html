@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expanding-cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            transition: background .4s ease;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Poppins, sans-serif;
+            width: 50%;
+            height: 100%;
+            margin: auto;
+        }
+
+        .panel {
+            position: relative;
+            flex: .5;
+            margin: 10px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 80%;
+            border-radius: 25px;
+            transition: flex .5s ease-in-out;
+            cursor: pointer;
+            color: #fff;
+            box-shadow: inset 0px 10px 20px -10px rgb(255 255 255 / .5), inset 0 -10px 10px -5px rgb(0 0 0 / .8), 0px 10px 10px -5px rgb(0 0 0 / .8);
+        }
+
+        h3 {
+            position: absolute;
+            left: 1.25rem;
+            bottom: 1.25rem;
+            font-size: 1.25rem;
+            margin: 0;
+            opacity: 0;
+        }
+
+        .panel.active {
+            flex: 5;
+        }
+
+        .panel.active h3 {
+            opacity: 1;
+            transition: opacity .3s ease-in .4s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="panel" id="1"
+            style="--image-url: https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwxfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080;background-image: url(https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwxfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080);">
+            <h3>Explore the World!</h3>
+        </div>
+        <div class="panel" id="2"
+            style="--image-url: https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwyfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080;background-image: url(https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwyfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080);">
+            <h3>Explore the World!</h3>
+        </div>
+        <div class="panel" id="3"
+            style="--image-url: https://images.unsplash.com/photo-1550275994-cdc89cd1948f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwzfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080;background-image: url(https://images.unsplash.com/photo-1550275994-cdc89cd1948f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwzfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080);">
+            <h3>Explore the World!</h3>
+        </div>
+        <div class="panel" id="4"
+            style="--image-url: https://images.unsplash.com/photo-1550275994-cdc89cd1948f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwzfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080;background-image: url(https://images.unsplash.com/photo-1550275994-cdc89cd1948f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHwzfHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080);">
+            <h3>Explore the World!</h3>
+        </div>
+        <div class="panel" id="5"
+            style="--image-url: https://images.unsplash.com/photo-1569081156361-c98e05e7f1e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHw0fHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080;background-image: url(https://images.unsplash.com/photo-1569081156361-c98e05e7f1e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NjQwMzd8MHwxfHNlYXJjaHw0fHxuZW9ufGVufDB8fHx8MTcxMDM0MjEzNnww&ixlib=rb-4.0.3&q=80&w=1080);">
+            <h3>Explore the World!</h3>
+        </div>
+    </div>
+    <script>
+        const canvas = document.createElement("canvas"),
+            ctx = canvas.getContext("2d"),
+            width = 500,
+            height = 500;
+
+        canvas.width = width
+        canvas.height = height
+
+        const image = new Image(width, height)
+        image.crossOrigin = "Anonymous"
+        image.src = document.querySelector(".panel").style.getPropertyValue("--image-url")
+        image.onload = function () {
+            ctx.drawImage(image, 0, 0, width, height)
+            data = ctx.getImageData(0, 0, width, height).data
+            getAverageColor(data)
+        }
+
+        document.querySelectorAll(".panel").forEach(panel => {
+            panel.onclick = function (e) {
+                removeAllActivePanels(e)
+                e.target.classList.toggle("active")
+                image.src = panel.style.getPropertyValue("--image-url")
+                image.onload = function () {
+                    ctx.drawImage(image, 0, 0, width, height)
+                    data = ctx.getImageData(0, 0, width, height).data
+                    getAverageColor(data)
+                }
+
+            }
+        })
+
+        const removeAllActivePanels = e => {
+            document.querySelectorAll(".panel").forEach(panel => {
+                if (e.target !== panel) panel.classList.remove("active")
+            })
+        }
+
+        function getAverageColor(data) {
+            let R = 0, G = 0, B = 0, A = 0;
+            // const
+            //     i = (y * width + x),
+            //     r = data[i],
+            //     g = data[i + 1],
+            //     b = data[i + 2],
+            //     a = data[i + 3] / 255,
+            //     ia = 1 - a,
+            //     wR = (r * a + 255 * ia) | 0,
+            //     wG = (g * a + 255 * ia) | 0,
+            //     wB = (b * a + 255 * ia) | 0;
+
+            for (let i = 0; i < data.length; i += 4) {
+                R += data[i]
+                G += data[i + 1]
+                B += data[i + 2]
+            }
+            R = ~~(R / (width * height))
+            G = ~~(G / (width * height))
+            B = ~~(B / (width * height))
+            document.documentElement.style.setProperty("--bg", `rgb(${R},${G},${B})`)
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dad-jokes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #686DE0;
+            font-family: Poppins, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0 0 0 / 0.1), 0 6px 6px rgba(0 0 0 / 0.1);
+            padding: 50px 20px;
+            text-align: center;
+            max-width: 100%;
+            width: 800px;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 25px;
+            /* opacity: 0.5; */
+            /* letter-spacing: 2px; */
+        }
+
+        .joke {
+            font-size: 30px;
+            letter-spacing: 1px;
+            line-height: 40px;
+            margin: 50px auto;
+            max-width: 600px;
+            overflow: hidden;
+        }
+
+        .btn {
+            position: relative;
+            background-color: #9f68e0;
+            color: #fff;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0 0 0 / 0.1), 0 6px 6px rgba(0 0 0 / 0.1), 0 6px 25px rgb(160, 104, 224, 0);
+            padding: 14px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            gap: 3px;
+            font-family: inherit;
+            transition: transform .5s ease, box-shadow .5s ease;
+        }
+
+        .btn:hover {
+            background-color: #686ce0be;
+        }
+
+        .btn.load {
+            transform: translateY(-50px);
+            box-shadow: 0 5px 15px rgba(0 0 0 / 0.1), 0 6px 6px rgba(0 0 0 / 0.1), 0 6px 25px rgb(160, 104, 224, 0.8);
+        }
+
+        .btn svg {
+            width: 6px;
+            height: 6px;
+            aspect-ratio: 1;
+            animation: load .5s ease-in-out infinite calc(var(--index) * .1s);
+        }
+
+        .btn svg circle {
+            fill: white;
+        }
+
+        @keyframes load {
+            to {
+                transform: translateY(-6px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Don't Laugh Challenge 😂</h3>
+        <div id="joke" class="joke">//Joke goes here</div>
+        <button id="jokeBtn" class="btn">Get Joke</button>
+    </div>
+    <script>
+        const jokeEl = document.querySelector("#joke");
+        const jokeBtn = document.querySelector("#jokeBtn");
+
+        jokeBtn.addEventListener("click", generateJoke)
+
+        generateJoke()
+
+        async function generateJoke() {
+            const config = {
+                headers: {
+                    Accept: 'application/json',
+                },
+            }
+            const res = await fetch('https://icanhazdadjoke.com', config)
+            const data = await res.json()
+
+            // jokeBtn.style.transform = "translateY(-50px)"
+            jokeBtn.classList.add("load")
+            jokeBtn.innerHTML = `
+                <svg style="--index: 0;" fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="16" cy="16" r="16"></circle> </g></svg>
+                <svg style="--index: 1; "fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="16" cy="16" r="16"></circle> </g></svg>
+                <svg style="--index: 2; "fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="16" cy="16" r="16"></circle> </g></svg>`
+
+            jokeEl.style.height = 0 + "px"
+
+            await new Promise(r => setTimeout(r, 1000))
+            // jokeBtn.style.transform = "translateY(0px)"
+            jokeBtn.classList.remove("load")
+
+            await new Promise(r => setTimeout(r, 250))
+            jokeEl.style.height = "fit-content"
+            jokeEl.innerHTML = data.joke;
+            jokeBtn.innerHTML = "Get Another Joke"
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13-random-choice-picker</title>
+    <style>
+        :root {
+            --accent-color: #76aa8d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eee;
+            font-family: Poppins, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--accent-color);
+            text-align: center;
+            font-size: 20px;
+            margin: 10px;
+        }
+
+        h3 {
+            color: #666;
+            text-align: center;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        .container {
+            width: 500px;
+            max-width: 100vw;
+            padding: 10px;
+        }
+
+        textarea {
+            border: none;
+            display: block;
+            min-width: 100%;
+            min-height: 100px;
+            font-family: inherit;
+            padding: 10px;
+            margin: 30px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            resize: none;
+            box-shadow: 0 7px 29px 0px rgba(100 100 111 / 0.2);
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 0 5px 10px 0;
+            /* font-size: 14px; */
+            display: inline-block;
+            transition: all 100ms linear;
+        }
+
+        .tag.highlight {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Enter all of the choices divided by a comma</h2>
+        <h3>Press enter when you're done</h3>
+        <textarea placeholder="Enter choices here..." id="textarea"></textarea>
+        <div class="tags" id="tags">
+            <div class="tag">Choice 1</div>
+            <div class="tag highlight">Choice 2</div>
+            <div class="tag">Choice 3</div>
+            <div class="tag">Choice 4</div>
+        </div>
+    </div>
+    <script>
+        const tagsEl = document.getElementById("tags");
+        const textarea = document.getElementById("textarea");
+
+        textarea.focus()
+
+        textarea.addEventListener("keyup", e => {
+            createTags(e.target.value)
+            if (e.key === "Enter") {
+                setTimeout(() => e.target.value = '', 10)
+                randomSelect()
+            }
+        })
+
+        function createTags(input) {
+            const tags = input.split(",").filter(tag => tag.trim() !== '').map(tag => tag.trim());
+
+            tagsEl.innerHTML = ''
+            tags.forEach(tag => {
+                const tagEl = document.createElement("span")
+                tagEl.className = "tag"
+                tagEl.innerText = tag
+                tagsEl.appendChild(tagEl)
+            })
+        }
+
+        function randomSelect() {
+            // const times = 30;
+            const times = 20;
+            const interval = setInterval(() => {
+                const randomTag = pickRandomTag()
+                highlightTag(randomTag)
+                setTimeout(() => {
+                    unHighlightTag(randomTag)
+                }, 100)
+            }, 100)
+
+            setTimeout(() => {
+                clearInterval(interval)
+
+                setTimeout(() => {
+                    const randomTag = pickRandomTag()
+                    highlightTag(randomTag)
+                }, 100)
+            }, times * 100)
+        }
+
+        function pickRandomTag() {
+            const tags = document.querySelectorAll(".tag")
+            return tags[Math.floor(Math.random() * tags.length)]
+        }
+        function highlightTag(tag) {
+            tag.classList.add("highlight")
+        }
+        function unHighlightTag(tag) {
+            tag.classList.remove("highlight")
+        }
+    </script>
+</body>
+
+</html>
