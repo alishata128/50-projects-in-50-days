@@ -18,4 +18,5 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 11 | [Event KeyCodes]() | [Live Demo]() | 
 | 12 | [FAQ Collapse]() | [Live Demo]() | 
 | 13 | [Random Choice Picker]() | [Live Demo]() | 
+| 14 | [Animated Navigation]() | [Live Demo]() | 
 
