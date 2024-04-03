@@ -41,8 +41,8 @@
             border-radius: 10px;
             box-shadow: 2px 4px 5px rgba(0 0 0 / .3);
             /* transform: translateX(300%); */
-            /* filter: blur(50px); */
-            transform: skew(50deg);
+            filter: blur(50px);
+            transform: scale(1.2);
             transition: transform .4s ease, filter .4s ease;
         }
 
@@ -52,8 +52,9 @@
 
         .box.show {
             filter: blur(0px);
-            transform: skew(0deg);
+            transform: scale(1);
             /* transform: translateX(0%); */
+            z-index: 10;
         }
 
         .box h1 {
