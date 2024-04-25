@@ -22,3 +22,4 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 15 | [Incrementing Counter](https://github.com/alishata128/50-projects-in-50-days/blob/main/15-incrementing-counter.html) | [Live Demo](https://codepen.io/alishata/full/wvZpzxX) |
 | 16 | [Drink Water](https://github.com/alishata128/50-projects-in-50-days/blob/main/16-drink-water.html) | [Live Demo](https://codepen.io/alishata/full/OJGZJQY) |
 | 17 | [Movie App](https://github.com/alishata128/50-projects-in-50-days/blob/main/17-movie-app.html) | [Live Demo](https://codepen.io/alishata/full/WNWmwbK) |
+| 18 | [Background Slider](https://github.com/alishata128/50-projects-in-50-days/blob/main/18-background-slider.html) | [Live Demo](https://codepen.io/alishata/full/xxeBEpN) |
