@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20-button-ripple-effect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #222;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        button {
+            position: relative;
+            background-color: purple;
+            border: 1px solid purple;
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 20px 30px;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+        button .circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255 255 255 /.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+            animation: .5s ease scale;
+            z-index: 100;
+        }
+
+        @keyframes scale {
+            to {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="ripple">
+        Click me
+    </button>
+    <script>
+        const ripples = document.querySelectorAll(".ripple");
+        ripples.forEach(ripple => {
+            ripple.addEventListener("click", e => {
+                const
+                    x = e.clientX,
+                    y = e.clientY,
+                    xInside = x - e.target.offsetLeft,
+                    yInside = y - e.target.offsetTop,
+                    circle = document.createElement("span");
+
+                circle.className = "circle";
+                circle.style.top = yInside + "px";
+                circle.style.left = xInside + "px";
+                ripple.appendChild(circle);
+                setTimeout(() => circle.remove(), 500)
+            })
+        })
+    </script>
+</body>
+
+</html>

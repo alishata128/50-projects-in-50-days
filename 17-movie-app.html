@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>17-movie-app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        :root {
+            --n-theme: 150;
+            --accent-color: hsl(var(--n-theme), 100%, 50%);
+            color-scheme: light dark;
+            --light-bg: #efedea;
+            --light-color: #efefec;
+            --dark-bg: color-mix(in srgb, var(--accent-color) 10%, black);
+            accent-color: var(--accent-color);
+
+
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        body {
+            color: light-dark(var(--dark-bg), var(--light-color));
+            background-color: light-dark(var(--light-bg), var(--dark-bg));
+            font-family: Poppins, sans-serif;
+
+        }
+
+        header {
+            display: flex;
+            padding: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            background-color: transparent;
+
+            --border-thickness: 2px;
+            --border-offset: 0px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(to bottom, rgba(0 0 0 /.5), transparent);
+
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            height: 200%;
+            z-index: -1;
+            backdrop-filter: blur(50px) saturate(150%);
+            mask-image: linear-gradient(to bottom, #000 50%, #0000 50%);
+            pointer-events: none;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            top: calc(100% + var(--border-offset));
+            height: 100%;
+            backdrop-filter: blur(50px) saturate(350%);
+            mask-image: linear-gradient(to bottom,
+                    #000 var(--border-thickness),
+                    #0000 var(--border-offset));
+            pointer-events: none;
+        }
+
+        header #logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 2em;
+            font-weight: 500;
+
+        }
+
+        header #form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header #form #search {
+            appearance: none;
+            background-color: transparent;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.5em;
+            padding: .5rem 1rem;
+            padding-left: 2em;
+            border: 2px solid rgba(255 255 255 /.2);
+            color: rgba(255 255 255 /.2);
+
+            width: 0px;
+            visibility: hidden;
+            transition: .5s ease;
+        }
+
+        header #form #search:is(:focus, :active, :not(:placeholder-shown)) {
+            outline: none;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        header #form:has(#search:is(:focus, :active, :not(:placeholder-shown))) label {
+            color: var(--accent-color);
+        }
+
+        header #form label {
+            font-size: 2em;
+            color: rgba(255 255 255 /.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: -1.4em;
+        }
+
+
+        header #form #search:is(:hover, :focus, :active, :not(:placeholder-shown)) {
+            width: 225px;
+            visibility: visible;
+        }
+
+        main .trending {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            overflow-x: auto;
+
+            scroll-snap-type: x mandatory;
+        }
+
+        main .trending .horizontal-list {
+            display: flex;
+            flex-direction: row;
+            width: fit-content;
+
+            margin: 1em;
+            /* scrollbar-color: #666 #201c29; */
+            /* scrollbar-gutter: always; */
+        }
+
+        .movie-lg {
+            width: 80em;
+            aspect-ratio: 2/1;
+            position: relative;
+            margin: 1em 1em 2em 1em;
+            border-radius: 12px;
+            overflow: hidden;
+
+            /* min-width: 60em; */
+            /* min-height: 350px; */
+            /* aspect-ratio: 2/1; */
+            /* box-shadow: -2rem 0 3rem -2rem #000; */
+            /* scroll-snap-align: start; */
+            /* padding: 1.5rem; */
+            /* border-radius: 16px; */
+            /* display: flex; */
+            /* flex-direction: column; */
+            /* background: linear-gradient(85deg, #434343, #262626); */
+            transition: .2s;
+
+            /* overflow: hidden; */
+
+            scroll-snap-align: center;
+            box-shadow: 0 0 3rem -1rem #000;
+        }
+
+        .movie-lg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+
+            background: radial-gradient(circle at 50% 50%, transparent, rgb(0 0 0 /.625));
+        }
+
+
+        .movie-lg:not(:first-child) {
+            /* margin-left: -10%; */
+        }
+
+        .movie-lg:first-child:hover {
+            /* transform: translate(-.5rem, -1rem) rotate(3deg); */
+        }
+
+        .movie-lg:hover {
+            transform: translateY(-1rem);
+        }
+
+
+        :where(.movie-lg, .movie-sm)>img {
+            max-width: 100%;
+            object-fit: contain;
+            object-position: center;
+            border-radius: inherit;
+
+            /* position: absolute; */
+            /* inset: 0; */
+        }
+
+        .movie-lg .movie-info {
+            position: absolute;
+            top: 25%;
+            z-index: 2;
+            padding: 2rem;
+            font-size: 2em;
+        }
+
+        .movie-lg .overview {
+            font-size: 1.3em;
+            line-height: 1.4;
+            position: absolute;
+            z-index: 2;
+            padding: 2rem;
+            bottom: 10%;
+            width: 60%;
+        }
+
+        .movie-lg .overview p {
+            margin-block: 1.5em;
+        }
+
+        ::-webkit-scrollbar {
+            appearance: none;
+            width: 8px;
+            height: 8px;
+            background-color: #f1f1f100;
+        }
+
+        ::-webkit-scrollbar-track {
+            /* background: light-dark(rgba(0 0 0 / .2), rgba(255 255 255 / .01)); */
+            background: #f1f1f100;
+        }
+
+        ::-webkit-scrollbar-track:horizontal {
+            margin: 2em;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: color-mix(in srgb, var(--accent-color), transparent 75%);
+            border-radius: 100px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: .5em;
+            color: var(--dark-bg);
+            background-color: var(--accent-color);
+            padding: .5em 1em;
+            font-family: inherit;
+        }
+
+        .watch-later {
+            padding: .5em .7em;
+        }
+
+        .recommended,
+        .searched {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        :where(.recommended, .searched)>h2 {
+            width: 100%;
+            font-size: 2em;
+            margin: 2em 1em 0 1em;
+        }
+
+        .movie-sm {
+            flex: 1;
+            min-width: 300px;
+            margin: 1em;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+
+            transition: 1s;
+        }
+
+        .movie-sm .movie-info {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            /* padding: .5em; */
+            /* padding-block: 1em; */
+            /* padding-inline: .25em; */
+            letter-spacing: .5px;
+            font-size: 1.3em;
+            transition: .5s ease;
+
+            transform: translateY(0%);
+            z-index: 10;
+            position: relative;
+            padding: .5em;
+
+        }
+
+        .movie-sm .movie-info h3 {
+            display: -webkit-box;
+            display: -moz-box;
+            box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-box-orient: vertical;
+            line-clamp: 1;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+        }
+
+        .movie-sm .movie-info span {
+            white-space: nowrap;
+        }
+
+        .movie-sm .movie-info span.green {
+            color: lightgreen;
+        }
+
+        .movie-sm .movie-info span.orange {
+            color: orange;
+        }
+
+        .movie-sm .movie-info span.red {
+            color: indianred;
+        }
+
+        .movie-sm .overview {
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgb(0, 0, 0), rgba(0 0 0 /.2));
+            padding: 1em;
+            opacity: 0;
+            font-size: 1.3em;
+            gap: 1em;
+            /* backdrop-filter: blur(10px); */
+            transition: .5s ease;
+        }
+
+        .movie-sm .overview p {
+            display: -webkit-box;
+            display: -moz-box;
+            box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+        }
+
+        .movie-sm:hover {
+            flex-grow: 2;
+        }
+
+
+        .movie-sm:hover .overview {
+            opacity: 1;
+        }
+
+        .movie-sm:hover .movie-info {
+            transform: translateY(-250%);
+            padding: 1em;
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo" id="logo">
+            <i class="fas fa-film"></i>
+            MovieApp
+        </a>
+        <form class="form" id="form">
+            <label for="search">
+                <i class="fas fa-search"></i>
+            </label>
+            <input type="text" id="search" class="search" placeholder="Search">
+        </form>
+    </header>
+    <main id="main">
+        <div class="trending">
+            <ul class="horizontal-list">
+
+            </ul>
+        </div>
+
+        <ul class="recommended">
+            <h2>Recommended for you</h2>
+
+        </ul>
+    </main>
+    <script>
+        const
+            API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1',
+            IMG_PATH = "https://image.tmdb.org/t/p/w1280",
+            SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="',
+            main = document.getElementById("main"),
+            hrList = main.querySelector(".horizontal-list"),
+            recommendedMovies = main.querySelector(".recommended"),
+            form = document.getElementById("form"),
+            search = document.getElementById("search");
+
+        const getMovies = async url => {
+            await fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (search.value && search.value !== "") {
+                        searchMovies(data.results)
+                    } else {
+                        showRecommended(data.results)
+                    }
+                });
+        }
+
+        const showRecommended = results => {
+            hrList.innerHTML = ""
+            hrList.style.display = "flex"
+            recommendedMovies.innerHTML = "<h2>Recommended for you</h2>"
+
+
+            results.forEach((result, idx) => {
+                const { title, poster_path, backdrop_path, vote_average, overview } = result;
+                const movieEl = document.createElement("li")
+
+                if (idx < 5) {
+                    movieEl.className = "movie-lg"
+                    movieEl.innerHTML = `
+                    <img src="${IMG_PATH + backdrop_path}" alt="${title} Poster">
+                    <div class="movie-info">
+                        <h3>${title}</h3>
+                    </div>
+                    <div class="overview">
+                        <p>${overview}</p>
+                        <div class="buttons">
+                            <button class="btn watch-now">Watch now</button>
+                            <button class="btn watch-later"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                    `
+                } else {
+                    movieEl.className = "movie-sm"
+                    movieEl.innerHTML = `
+                        <img src="${IMG_PATH + backdrop_path}" alt="${title}">
+                        <div class="movie-info">
+                            <h3>${title}</h3>
+                            <span class="${getClassByRate(vote_average)}">★ ${vote_average}</span>
+                        </div>
+                        <div class="overview">
+                            <p>${overview}</p>
+                            <div class="buttons">
+                                <button class="btn watch-now">Watch now</button>
+                                <button class="btn watch-later"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                    `
+                }
+                if (idx < 5) {
+                    hrList.appendChild(movieEl)
+                } else {
+                    recommendedMovies.appendChild(movieEl)
+                }
+
+            })
+        }
+
+        const searchMovies = results => {
+            hrList.style.display = "none"
+            recommendedMovies.style.display = "none"
+            const searchedMovies = document.createElement("ul")
+            searchedMovies.className = "searched"
+
+            main.appendChild(searchedMovies)
+
+            results.forEach((result, idx) => {
+                const { title, poster_path, vote_average, overview } = result;
+                const movieEl = document.createElement("li")
+                movieEl.className = "movie-sm"
+                movieEl.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w1280/${poster_path}" alt="${title}">
+                    <div class="movie-info">
+                        <h3>${title}</h3>
+                        <span class="${getClassByRate(vote_average)}">★ ${vote_average}</span>
+                    </div>
+                    <div class="overview">
+                        <h3>${title}</h3>
+                        <p>${overview}</p>
+                        <div class="buttons">
+                            <button class="btn watch-now">Watch now</button>
+                            <button class="btn watch-later"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                `
+                searchedMovies.appendChild(movieEl)
+            })
+        }
+
+        const getClassByRate = vote => {
+            if (vote >= 8) return "green";
+            else if (vote >= 5) return "orange";
+            else return "red";
+        }
+
+        getMovies(API_URL)
+
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            if (search.value && search.value !== "") {
+                getMovies(SEARCH_API + search.value)
+            }
+        })
+
+        window.addEventListener("scroll", e => {
+            document.body.style.setProperty("--scroll", window.pageYOffset / (document.body.offsetHeight - innerHeight))
+        }, false)
+    </script>
+</body>
+
+</html>
