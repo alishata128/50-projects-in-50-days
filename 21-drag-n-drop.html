@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21-drag-n-drop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            color-scheme: light dark;
+            --primary-color: #181625;
+            --secondary-color: color-mix(in srgb, var(--primary-color) 75%, white);
+
+        }
+
+        body {
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+
+            font-family: Montserrat, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty {
+            height: 150px;
+            width: 150px;
+            aspect-ratio: 1;
+            margin: 10px;
+            /* border: solid 3px black; */
+            /* background: white; */
+
+
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: .5s ease;
+            overflow: hidden;
+        }
+
+        .empty i {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            font-size: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: canvasText;
+        }
+
+        .fill {
+            background-image: url("https://source.unsplash.com/random/150x150");
+            height: 150px;
+            width: 150px;
+            cursor: pointer;
+
+            z-index: 1;
+            border-radius: inherit;
+        }
+
+        .hold {
+            /* border: solid 5px #ccc; */
+        }
+
+        .hovered {
+            /* background-color: #333; */
+            border-color: white;
+            border-style: dashed;
+        }
+
+        @media (max-width: 800px) {
+            body {
+                /* flex-direction: column; */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <p>Drag the Image from One Box to Another</p>
+    <div class="container">
+        <div class="empty" id="1">
+            <i class="fa-solid fa-image"></i>
+            <div class="fill" draggable="true"></div>
+        </div>
+        <div class="empty" id="2">
+            <i class="fa-solid fa-image"></i>
+        </div>
+        <div class="empty" id="3">
+            <i class="fa-solid fa-image"></i>
+        </div>
+        <div class="empty" id="4">
+            <i class="fa-solid fa-image"></i>
+        </div>
+        <div class="empty" id="5">
+            <i class="fa-solid fa-image"></i>
+        </div>
+    </div>
+    <script>
+        const
+            fill = document.querySelector(".fill"),
+            empties = document.querySelectorAll(".empty");
+
+        fill.addEventListener("dragstart", dragStart)
+        fill.addEventListener("dragend", dragEnd)
+
+        for (const empty of empties) {
+            empty.addEventListener("dragover", dragOver)
+            empty.addEventListener("dragenter", dragEnter)
+            empty.addEventListener("dragleave", dragLeave)
+            empty.addEventListener("drop", dragDrop)
+        }
+        function dragStart() {
+            this.className += " hold"
+            setTimeout(() => this.className = "invisible", 0)
+        }
+        function dragEnter(e) {
+            e.preventDefault()
+            this.className += " hovered"
+        }
+        function dragEnd() {
+            this.className = "fill"
+        }
+        function dragOver(e) {
+            e.preventDefault()
+
+            e.target.animate([
+                { transform: "scale(1.2)" }
+            ], {
+                duration: 500,
+                fill: "forwards",
+                easing: "ease"
+            })
+        }
+        function dragLeave(e) {
+            this.className = "empty"
+            e.target.animate([
+                { transform: "scale(1)" }
+            ], {
+                duration: 500,
+                fill: "forwards",
+                easing: "ease"
+            })
+        }
+        function dragDrop() {
+            this.className = "empty"
+            this.append(fill)
+        }
+    </script>
+</body>
+
+</html>

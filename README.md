@@ -23,3 +23,6 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 16 | [Drink Water](https://github.com/alishata128/50-projects-in-50-days/blob/main/16-drink-water.html) | [Live Demo](https://codepen.io/alishata/full/OJGZJQY) |
 | 17 | [Movie App](https://github.com/alishata128/50-projects-in-50-days/blob/main/17-movie-app.html) | [Live Demo](https://codepen.io/alishata/full/WNWmwbK) |
 | 18 | [Background Slider](https://github.com/alishata128/50-projects-in-50-days/blob/main/18-background-slider.html) | [Live Demo](https://codepen.io/alishata/full/xxeBEpN) |
+| 19 | [Theme Clock](https://github.com/alishata128/50-projects-in-50-days/blob/main/19-theme-clock.html) | [Live Demo](https://codepen.io/alishata/pen/xxeoREM) |
+| 20 | [Button Ripple Effect](https://github.com/alishata128/50-projects-in-50-days/blob/main/20-button-ripple-effect.html) | [Live Demo](https://codepen.io/alishata/pen/Pogrbbz) |
+| 21 | [Drag N Drop](https://github.com/alishata128/50-projects-in-50-days/blob/main/21-drag-n-drop.html) | [Live Demo](https://codepen.io/alishata/pen/LYvKbbo) |

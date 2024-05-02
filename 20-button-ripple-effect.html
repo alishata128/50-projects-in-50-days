@@ -7,47 +7,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>20-button-ripple-effect</title>
     <style>
+        :root {
+            --primary-color: #181625;
+            --accent-color: rgb(118, 145, 170);
+        }
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
         body {
             min-height: 100vh;
-            background-color: #222;
-            display: grid;
-            place-items: center;
+            /* background-color: #000; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+            margin: 0;
+
+            font-family: Roboto, sans-serif;
+            background-color: var(--primary-color);
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 24px;
         }
 
         button {
-            position: relative;
-            background-color: purple;
-            border: 1px solid purple;
+            /* background-color: purple; */
+            /* border: 1px purple solid; */
             color: #fff;
             font-size: 14px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 20px 30px;
+            /* letter-spacing: 2px; */
+            /* padding: 20px 30px; */
             overflow: hidden;
-            margin: 10px;
+            margin: 10px 0;
+            position: relative;
+
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 100px;
+            letter-spacing: 1.5px;
+            padding: 20px 35px;
+            transition: .2s ease;
+            cursor: pointer;
         }
 
         button:focus {
             outline: 0;
         }
 
+        button:hover {
+            scale: 1.05;
+        }
+
         button .circle {
             position: absolute;
+            /* background-color: #fff; */
             width: 100px;
             height: 100px;
-            background-color: rgba(255 255 255 /.5);
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-            animation: .5s ease scale;
-            z-index: 100;
+            animation: scale 0.5s ease-out;
+        }
+
+        button.filled .circle {
+            background-color: #fff;
+        }
+
+        button.empty .circle {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: 3px solid #fff;
+        }
+
+        button.rainbow .circle {
+            background: radial-gradient(circle,
+                    rgba(255, 85, 85, 1) 0%,
+                    rgba(255, 175, 100, 1) 16%,
+                    rgba(255, 239, 126, 1) 32%,
+                    rgba(152, 255, 134, 1) 50%,
+                    rgba(123, 225, 255, 1) 66%,
+                    rgba(108, 100, 255, 1) 82%,
+                    rgba(233, 62, 255, 1) 100%);
         }
 
         @keyframes scale {
@@ -60,9 +106,10 @@
 </head>
 
 <body>
-    <button class="ripple">
-        Click me
-    </button>
+    <h1>Button ripple effect</h1>
+    <button class="ripple filled">filled circle</button>
+    <button class="ripple empty">empty circle</button>
+    <button class="ripple rainbow">rainbow</button>
     <script>
         const ripples = document.querySelectorAll(".ripple");
         ripples.forEach(ripple => {
