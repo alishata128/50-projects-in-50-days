@@ -26,3 +26,4 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 19 | [Theme Clock](https://github.com/alishata128/50-projects-in-50-days/blob/main/19-theme-clock.html) | [Live Demo](https://codepen.io/alishata/pen/xxeoREM) |
 | 20 | [Button Ripple Effect](https://github.com/alishata128/50-projects-in-50-days/blob/main/20-button-ripple-effect.html) | [Live Demo](https://codepen.io/alishata/pen/Pogrbbz) |
 | 21 | [Drag N Drop](https://github.com/alishata128/50-projects-in-50-days/blob/main/21-drag-n-drop.html) | [Live Demo](https://codepen.io/alishata/pen/LYvKbbo) |
+| 22 | [Drawing App](https://github.com/alishata128/50-projects-in-50-days/blob/main/22-drawing-app.html) | [Live Demo](https://codepen.io/alishata/pen/qBwemLz) |

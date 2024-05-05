@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drawing-app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        :root {
+            /* --primary: #181625; */
+            /* --secondary: #403c55; */
+            /* --accent: #a876aa; */
+
+            --accent: dodgerblue;
+            --primary: color-mix(in srgb, var(--accent) 10%, black);
+            --secondary: color-mix(in srgb, var(--accent) 25%, transparent);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Poppins, sans-serif;
+            background-color: var(--primary);
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* border: 2px solid red; */
+            border-radius: 20px;
+            /* overflow: hidden; */
+            width: 600px;
+            height: 600px;
+            aspect-ratio: 1;
+        }
+
+        .canvas-wrapper {
+            --canvas-bg: color-mix(in srgb, var(--secondary), transparent);
+            --line-color: color-mix(in srgb, var(--accent), transparent 85%);
+            --line-width: 1px;
+            --size: 25px;
+
+            position: relative;
+            width: 600px;
+            height: 0px;
+
+            order: 2;
+            pointer-events: all;
+            overflow: hidden;
+            border-radius: 20px;
+            outline: 2px solid var(--canvas-bg);
+            outline-offset: -2px;
+            transition: height .5s ease, order .5s ease, filter .3s ease;
+        }
+
+        canvas {
+
+            background:
+                linear-gradient(var(--line-color) var(--line-width), transparent var(--line-width)) 50% 0% / var(--size) var(--size) content-box,
+                linear-gradient(90deg, var(--line-color) var(--line-width), transparent var(--line-width)) 0% 50% / var(--size) var(--size) content-box,
+                linear-gradient(var(--canvas-bg), var(--canvas-bg));
+            cursor: crosshair;
+
+            border-radius: 20px;
+        }
+
+        .toolbox {
+            position: relative;
+            display: flex;
+            padding: 1rem;
+            background-color: var(--secondary);
+            width: 100%;
+            margin: 1rem 0;
+            border-radius: inherit;
+            align-items: center;
+            justify-content: center;
+
+            order: 1;
+            transition: all .3s ease;
+        }
+
+        .toolbox>*:not(svg) {
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: .25rem;
+            padding: .25rem;
+            cursor: pointer;
+            color: #fff;
+            background-color: transparent;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+        }
+
+        .toolbox button {
+            background-color: var(--accent);
+            transition: .2s ease;
+
+            position: relative;
+        }
+
+        .toolbox button input {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            appearance: none;
+            opacity: 0;
+        }
+
+        .toolbox button label {
+            position: relative;
+            cursor: inherit;
+        }
+
+        .toolbox button:nth-last-child(3) {
+            margin-left: auto;
+        }
+
+        .toolbox button:hover {
+            scale: 1.1;
+        }
+
+        .toolbox button:active {
+            scale: 1;
+        }
+
+        input[type="color"] {
+            appearance: none;
+            width: 35px;
+            height: 35px;
+            aspect-ratio: 1;
+            padding: 0;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        ::-webkit-color-swatch {
+            appearance: none;
+            position: absolute;
+            inset: 0;
+            border: none;
+        }
+
+        .toolbox svg,
+        .canvas-wrapper svg {
+            display: none;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .toolbox svg rect,
+        .canvas-wrapper svg {
+            fill: transparent;
+            stroke: white;
+            stroke-width: 5;
+            stroke-dasharray: 10;
+            stroke-dashoffset: 100;
+            animation: 1.5s linear infinite stroke-dashing;
+        }
+
+        @keyframes stroke-dashing {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .dragging {
+            filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="canvas-wrapper" id="canvas-wrapper" draggable="false" style="order: 2;">
+            <svg>
+                <rect width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+            <canvas id="canvas" width="600" height="500"></canvas>
+        </div>
+        <div class="toolbox" id="toolbox" draggable="false" style="order: 1;">
+            <svg>
+                <rect width="100%" height="100%" x="0" y="0"></rect>
+            </svg>
+            <button id="decrease"><i class="fas fa-minus"></i></button>
+            <span id="size">10</span>
+            <button id="increase"><i class="fas fa-plus"></i></button>
+            <input type="color" id="color" value="#1e90ff">
+            <button id="clear"><i class="fas fa-eraser"></i></button>
+            <button id="new-delete"><label for="new-delete-checkbox"><i class="fas fa-pen"></i></label><input
+                    type="checkbox" id="new-delete-checkbox"></button>
+            <button id="edit"><i class="fas fa-pen-to-square"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const
+            container = document.getElementById("container"),
+            toolbox = document.getElementById("toolbox"),
+            canvas_wrapper = document.getElementById("canvas-wrapper"),
+            canvas = document.getElementById("canvas"),
+            increaseBtn = document.getElementById("increase"),
+            decreaseBtn = document.getElementById("decrease"),
+            sizeEl = document.getElementById("size"),
+            colorEl = document.getElementById("color"),
+            clearEl = document.getElementById("clear"),
+            newDeleteEl = document.getElementById("new-delete"),
+            editEl = document.getElementById("edit"),
+            ctx = canvas.getContext("2d");
+
+
+        let
+            size = 10,
+            isPressed = false,
+            color = "dodgerblue",
+            x, y;
+
+
+        canvas.addEventListener("mousedown", e => {
+            isPressed = true;
+            x = e.offsetX
+            y = e.offsetY
+        })
+        canvas.addEventListener("mouseup", e => {
+            isPressed = false;
+            x = undefined;
+            y = undefined;
+        })
+        canvas.addEventListener("mousemove", e => {
+            if (!isPressed) return;
+
+            const x2 = e.offsetX, y2 = e.offsetY;
+            drawCircle(x2, y2);
+            drawLine(x, y, x2, y2);
+
+            x = x2;
+            y = y2;
+        })
+
+        function drawCircle(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, size / 2, 0, Math.PI * 2, true);
+            ctx.fillStyle = color;
+            ctx.fill()
+        }
+
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.stroke()
+        }
+
+
+        increaseBtn.addEventListener("click", () => {
+            if (size < 100) {
+                size += 5
+            }
+            sizeEl.innerText = size
+        })
+        decreaseBtn.addEventListener("click", () => {
+            if (size > 5) {
+                size -= 5
+            }
+            sizeEl.innerText = size
+        })
+        colorEl.addEventListener("change", e => color = e.target.value);
+        clearEl.addEventListener("click", () => ctx.clearRect(0, 0, canvas.width, canvas.height))
+
+
+        newDeleteEl.querySelector("i").classList.toggle("fa-pen", !newDeleteEl.querySelector("input").checked)
+        canvas_wrapper.style.height = newDeleteEl.querySelector("input").checked ? "500px" : "0px";
+        newDeleteEl.addEventListener("click", e => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            canvas_wrapper.style.height = newDeleteEl.querySelector("input").checked ? "500px" : "0px";
+
+            newDeleteEl.querySelector("i").classList.toggle("fa-remove", newDeleteEl.querySelector("input").checked)
+            newDeleteEl.querySelector("i").classList.toggle("fa-pen", !newDeleteEl.querySelector("input").checked)
+
+        })
+
+        editEl.addEventListener("click", e => {
+            toolbox.draggable = !toolbox.draggable
+            canvas_wrapper.draggable = !canvas_wrapper.draggable
+            canvas.style.pointerEvents = canvas_wrapper.draggable ? "none" : "all"
+            toolbox.querySelector("svg").style.display = toolbox.draggable ? "block" : "none"
+            canvas_wrapper.querySelector("svg").style.display = toolbox.draggable ? "block" : "none"
+
+            editEl.querySelector("i").classList.toggle("fa-right-from-bracket", toolbox.draggable)
+            editEl.querySelector("i").classList.toggle("fa-pen-to-square", !toolbox.draggable)
+        })
+
+
+        let dragged = undefined
+        Array(canvas_wrapper, toolbox).forEach(item => {
+            item.addEventListener("dragstart", e => {
+                dragged = e.target
+                item.classList.add("dragging")
+            })
+            item.addEventListener("dragover", e => e.preventDefault())
+            item.addEventListener("dragenter", e => {
+                console.log(dragged, e.target)
+                dragged.style.order = getComputedStyle(e.target).order - 1
+                e.target.style.order = parseInt(getComputedStyle(dragged).order) + 1
+            })
+            item.addEventListener("dragend", e => item.classList.remove("dragging"))
+        })
+
+
+    </script>
+</body>
+
+</html>
