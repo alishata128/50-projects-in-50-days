@@ -27,3 +27,6 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 20 | [Button Ripple Effect](https://github.com/alishata128/50-projects-in-50-days/blob/main/20-button-ripple-effect.html) | [Live Demo](https://codepen.io/alishata/full/Pogrbbz) |
 | 21 | [Drag N Drop](https://github.com/alishata128/50-projects-in-50-days/blob/main/21-drag-n-drop.html) | [Live Demo](https://codepen.io/alishata/full/LYvKbbo) |
 | 22 | [Drawing App](https://github.com/alishata128/50-projects-in-50-days/blob/main/22-drawing-app.html) | [Live Demo](https://codepen.io/alishata/full/qBwemLz) |
+| 23 | [Kinetic Loader](https://github.com/alishata128/50-projects-in-50-days/blob/main/23-kinetic-loader.html) | [Live Demo](https://codepen.io/alishata/full/pomjWJq) |
+| 24 | [Content Placeholder](https://github.com/alishata128/50-projects-in-50-days/blob/main/24-content-placeholder.html) | [Live Demo](https://codepen.io/alishata/full/dyEYVop) |
+| 25 | [Sticky Navbar](https://github.com/alishata128/50-projects-in-50-days/blob/main/25-sticky-navbar.html) | [Live Demo](https://codepen.io/alishata/full/wvbKrvy) |
