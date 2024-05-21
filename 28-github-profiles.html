@@ -475,10 +475,8 @@
             form = document.getElementById("form"),
             search = document.getElementById("search"),
             container = document.getElementById("container"),
-            expand = document.getElementById("expand");
-
-
-        const
+            expand = document.getElementById("expand"),
+            token = "",
             canvas = document.createElement("canvas"),
             ctx = canvas.getContext("2d"),
             width = 150,
@@ -500,7 +498,7 @@
                     fetch(url, {
                         method: "GET",
                         headers: {
-                            "Authorization": "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",
+                            "Authorization": token,
                             'Content-Type': 'application/json'
                         }
                     })

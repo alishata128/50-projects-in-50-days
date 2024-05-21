@@ -30,3 +30,6 @@ Based on projects of **Brad Traversy** and **Florin Pop**'s Course: [50 Projects
 | 23 | [Kinetic Loader](https://github.com/alishata128/50-projects-in-50-days/blob/main/23-kinetic-loader.html) | [Live Demo](https://codepen.io/alishata/full/pomjWJq) |
 | 24 | [Content Placeholder](https://github.com/alishata128/50-projects-in-50-days/blob/main/24-content-placeholder.html) | [Live Demo](https://codepen.io/alishata/full/dyEYVop) |
 | 25 | [Sticky Navbar](https://github.com/alishata128/50-projects-in-50-days/blob/main/25-sticky-navbar.html) | [Live Demo](https://codepen.io/alishata/full/wvbKrvy) |
+| 26 | [Vertical Slider](https://github.com/alishata128/50-projects-in-50-days/blob/main/26-vertical-slider.html) | [Live Demo](https://codepen.io/alishata/full/GRaZPeg) |
+| 27 | [Toast Notification](https://github.com/alishata128/50-projects-in-50-days/blob/main/27-toast-notification.html) | [Live Demo](https://codepen.io/alishata/full/QWRNzop) |
+| 28 | [Github Profiles](https://github.com/alishata128/50-projects-in-50-days/blob/main/28-github-profiles.html) | [Live Demo](https://codepen.io/alishata/full/rNgeoRv) |
