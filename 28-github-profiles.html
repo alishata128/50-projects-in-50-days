@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>28-github-profiles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent-color: #555;
+            --ligher-accent: color-mix(in srgb, var(--accent-color), #fff);
+            --darker-accent: color-mix(in srgb, var(--accent-color), #000);
+            --bg: light-dark(var(--ligher-accent), var(--darker-accent));
+            --fg: light-dark(var(--darker-accent), var(--ligher-accent));
+            color-scheme: light;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Poppins, sans-serif;
+            display: grid;
+            place-items: center;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+
+            background-color: var(--bg);
+            box-shadow: 0 2px 8px 0px rgba(99 99 99 / .5);
+        }
+
+        .user-form {
+            position: relative;
+            width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: var(--fg);
+            color-scheme: light;
+            border-radius: 100px;
+            /* box-shadow: 0 2px 8px 0px rgba(99 99 99 / .2); */
+            /* overflow: hidden; */
+            z-index: 10;
+        }
+
+        .container:has(#expand input:checked) .user-form,
+        .container.active .user-form {
+            border-radius: 25px 25px 0px 0px;
+        }
+
+        .user-form button[type="submit"] {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fg);
+            position: relative;
+        }
+
+        #search-dice:is(:active, :focus) {
+            animation: .5s linear infinite dicing;
+        }
+
+        @keyframes dicing {
+            from {
+                rotate: 0deg;
+            }
+
+            to {
+                rotate: -360deg;
+            }
+        }
+
+        .expand {
+            position: relative;
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: .3;
+            margin-right: .5rem;
+        }
+
+        .expand.active {
+            opacity: 1;
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .expand>* {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .expand input {
+            appearance: none;
+            background: transparent;
+        }
+
+        .expand i {
+            pointer-events: none;
+        }
+
+        .expand #up {
+            display: none;
+        }
+
+        .expand:has(input:checked) #up {
+            display: flex;
+        }
+
+        .expand:has(input:checked) #down {
+            display: none;
+        }
+
+        .user-form label {
+            display: inline-block;
+            padding: 1rem;
+        }
+
+        .user-form label i {
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .user-form label:active {
+            scale: .90;
+        }
+
+        .user-form input[type="text"] {
+            appearance: none;
+            width: 100%;
+            display: block;
+            border: none;
+            color: inherit;
+            padding: 1rem;
+            font-family: inherit;
+            font-size: 1rem;
+            background: transparent;
+
+
+        }
+
+        .user-form input::placeholder {
+            color: color-mix(in srgb, var(--fg), transparent);
+        }
+
+        .user-form input:focus {
+            outline: none;
+        }
+
+        main {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            border-radius: 25px;
+            width: 400px;
+            height: 0px;
+            transition: height .3s ease-out;
+        }
+
+        .container:has(#expand input:checked) main,
+        .container.active main {
+            height: 450px;
+        }
+
+
+        main::before {
+            --line-width: 2px;
+            --line-color: rgba(0 0 0 /.3);
+            --size: 25px;
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(var(--line-color) var(--line-width), transparent var(--line-width)) 50% 50% / var(--size) var(--size),
+                linear-gradient(90deg, var(--line-color) var(--line-width), transparent var(--line-width)) 50% 50% / var(--size) var(--size);
+            pointer-events: none;
+            mask-image: radial-gradient(circle 140px at 50% 30%, #000, #0000);
+            z-index: -1;
+            transform-style: flat;
+            image-rendering: pixelated;
+        }
+
+
+        .card {
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            width: 400px;
+            min-height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+
+
+        .container:has(#expand input:checked) main .card,
+        .container.active main .card {
+            box-shadow: none;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            color-scheme: dark;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 150px;
+            height: 150px;
+            aspect-ratio: 1;
+            overflow: hidden;
+
+        }
+
+
+        .avatar .avatar-img {
+            width: 150px;
+            height: 150px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            object-position: center;
+            border-radius: inherit;
+        }
+
+        .user-info {
+            color: var(--fg);
+            color-scheme: light;
+            display: flex;
+            flex-direction: column;
+            align-items: normal;
+
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .user-info h2 {
+            margin: 1rem;
+            min-width: 100px;
+            min-height: 20px;
+        }
+
+        .user-info p {
+            font-size: .9rem;
+            color: var(--fg);
+            /* color: color-mix(in srgb, var(--fg), transparent); */
+            min-width: 60px;
+            min-height: 20px;
+
+            display: -moz-box;
+            display: -webkit-box;
+            box-orient: vertical;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            line-clamp: 2;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+
+        .user-info ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+
+            width: 100%;
+
+            margin-top: 1rem;
+            min-width: 100%;
+            min-height: 60px;
+        }
+
+        .user-info ul li {
+            display: flex;
+            align-items: center;
+
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-info ul li:not(:first-child) {
+            border-left: 1px solid var(--fg);
+        }
+
+        .user-info ul li strong,
+        .user-info ul li span {
+            font-size: .9rem;
+            font-weight: 500;
+            color: color-mix(in srgb, var(--fg), transparent);
+        }
+
+
+
+        .repos {
+            position: relative;
+            margin-top: 1rem;
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 50%;
+            align-items: center;
+            width: 100%;
+            overflow: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: .25rem;
+
+            min-width: 100%;
+            min-height: 20px;
+        }
+
+        .repos::-webkit-scrollbar {
+            appearance: none;
+            height: 5px;
+            background: light-dark(rgba(0 0 0 / .1), rgba(255 255 255/ .1));
+            border-radius: 10px;
+        }
+
+        .repos::-webkit-scrollbar-thumb {
+            appearance: none;
+            background: color-mix(in srgb, currentColor 45%, transparent);
+            border-radius: 10px;
+        }
+
+
+        .repos:hover {
+            animation: none;
+            overflow: auto;
+        }
+
+        .repo {
+            text-decoration: none;
+            color: var(--bg);
+            background-color: var(--fg);
+            padding: .25rem .5rem;
+            display: inline-block;
+            border-radius: 1rem;
+            font-size: .8rem;
+            margin: .25rem 0 0 .25rem;
+            text-align: center;
+            scroll-snap-align: start;
+
+            display: -webkit-box;
+            display: -moz-box;
+            box-orient: vertical;
+            -moz-box-orient: vertical;
+            -webkit-box-orient: vertical;
+            line-clamp: 1;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+        }
+
+        .repo:last-child {
+            margin-right: 0;
+        }
+
+        .loading {
+            z-index: 100;
+        }
+
+        .card.loading .avatar,
+        .card.loading .user-info>* {
+            position: relative;
+        }
+
+        .card.loading .avatar::after,
+        .card.loading .user-info>*::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(to right,
+                    rgb(190 190 190) 0%,
+                    rgb(180 180 180) 10%,
+                    rgba(190 190 190) 20%,
+                    rgba(190 190 190) 100%);
+            background-size: 200% 100%;
+            background-attachment: fixed;
+            animation: skeleton-loading 1s linear infinite;
+            border-radius: 25px;
+            animation: 1s linear infinite skeleton-loading;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 50% 0;
+            }
+
+            100% {
+                background-position: -150% 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .card {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .user-form {
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <form class="user-form" id="form">
+            <input type="text" id="search" placeholder="Search a Github User" required>
+            <button type="submit" id="search-button">
+                <label for="search">
+                    <i class="fas fa-search"></i>
+                </label>
+            </button>
+            <label for="" id="search-dice">
+                <i class="fas fa-dice-five"></i>
+            </label>
+            <label class="expand" id="expand">
+                <input type="checkbox">
+                <i class="fa-solid fa-chevron-up" id="up"></i>
+                <i class="fa-solid fa-chevron-down" id="down"></i>
+            </label>
+        </form>
+        <main id="main">
+            <div class="card loading">
+                <div class="avatar">
+                </div>
+                <div class="user-info">
+                    <h2></h2>
+                    <p></p>
+                    <ul>
+                    </ul>
+                    <div class="repos" id="repos">
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"
+        integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ=="
+        crossorigin="anonymous"></script>
+    <script>
+        const
+            APIURL = "https://api.github.com/users/",
+            main = document.getElementById("main"),
+            form = document.getElementById("form"),
+            search = document.getElementById("search"),
+            container = document.getElementById("container"),
+            expand = document.getElementById("expand");
+
+
+        const
+            canvas = document.createElement("canvas"),
+            ctx = canvas.getContext("2d"),
+            width = 150,
+            height = 150,
+            image = new Image(width, height);
+        image.crossOrigin = "Anonymous"
+
+
+
+        async function getUser(username) {
+            if (username && username.length > 0) {
+
+                expand.classList.add("active")
+                if (!expand.children[0].checked) {
+                    expand.children[0].click()
+                }
+
+                Promise.all([APIURL + username, `https://api.github.com/users/${username}/repos?sort=created`].map(url =>
+                    fetch(url, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": "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",
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(res => {
+                            if (!res.ok) throw new Error("Network response isn't ok")
+                            return res.json()
+                        })
+                        .catch(err => { console.log(err) })
+                ))
+                    .then(data => {
+                        createCard(true, data[0], data[1])
+                    })
+
+            }
+        }
+        function createCard(status, user, repos) {
+            let cardHTML = "", reposHTML = ""
+
+            if (status) {
+
+                repos.slice(0, 5).forEach(repo => {
+                    reposHTML += `<a class="repo" href="${repo.html_url}" target="_blank">${repo.name}</a>`
+                })
+                cardHTML = `
+                    <div class="card">
+                        <div class="avatar" data-magnetic>
+                            <img src="${user.avatar_url}" alt="${user.name}" class="avatar-img">
+                        </div>
+                        <div class="user-info">
+                            <h2>${user.name}</h2>
+                            <p>${user.bio}</p>
+                            <ul>
+                                <li>${user.followers} <span>followers</span></li>
+                                <li>${user.following} <span>following</span></li>
+                                <li>${user.public_repos} <span>repos</span></li>
+                            </ul>
+                            <div class="repos" id="repos">
+                                ${reposHTML}
+                            </div>
+                        </div>
+                    </div>        
+                                `
+
+            } else {
+                cardHTML =
+                    `
+                     <div class="card"><h1>There is an Error !</h1></div>
+                    `
+
+            }
+            main.innerHTML = cardHTML
+
+            image.src = user.avatar_url
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0, width, height)
+                imageData = ctx.getImageData(0, 0, width, height).data
+                document.documentElement.style.setProperty("--accent-color", getAverageColor(imageData))
+            }
+
+
+            document.querySelectorAll("[data-magnetic]").forEach(magnet => {
+                const bbox = magnet.getBoundingClientRect();
+                magnet.onmousemove = function (e) {
+                    const
+                        x = e.clientX,
+                        y = e.clientY,
+                        strength = 10,
+                        newX = ((x - bbox.left) / magnet.offsetWidth) - 0.5,
+                        newY = ((y - bbox.top) / magnet.offsetHeight) - 0.5;
+
+                    magnet.animate([
+                        { transform: `translate(${newX * strength}px, ${newY * strength}px)` }
+                    ], {
+                        duration: 100,
+                        easing: "ease-out",
+                        fill: "forwards"
+                    })
+                }
+                magnet.onmouseleave = function () {
+                    magnet.animate([
+                        { transform: "translate(0px, 0px)" }
+                    ], {
+                        duration: 100,
+                        easing: "ease-out",
+                        fill: "forwards"
+                    })
+                }
+            })
+
+        }
+
+        form.addEventListener("submit", e => {
+            e.preventDefault()
+            if (search.value) {
+                getUser(search.value)
+                search.value = ''
+            }
+        })
+
+        function getAverageColor(data) {
+            let R = 0, G = 0, B = 0, A = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                R += data[i]
+                G += data[i + 1]
+                B += data[i + 2]
+            }
+            R = ~~(R / (width * height))
+            G = ~~(G / (width * height))
+            B = ~~(B / (width * height))
+            return `rgb(${R}, ${G}, ${B})`
+        }
+        // function activeMagneto(el,)
+
+
+
+    </script>
+</body>
+
+</html>

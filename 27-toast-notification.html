@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <title>27-toast-notification</title>
+    <style>
+        :root {
+            /* --primary-color: #a876aa; */
+            --primary-color: dodgerblue;
+            --success-color: #74ad5a;
+            --error-color: #db5b81;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #eee;
+            font-family: Poppins, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .btns {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .btn {
+            background-color: #fff;
+            color: var(--theme);
+            font-family: inherit;
+            font-weight: bold;
+            padding: 1rem;
+            margin: 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 2px 8px 0px rgba(99 99 99 / .2);
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .btn:active {
+            transform: scale(.98);
+        }
+
+        .btn-mn {
+            z-index: 10;
+        }
+
+        .btn-sm {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            translate: 0 -10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            transition: translate .5s ease-in-out, scale .5s ease-in-out;
+        }
+
+        .btn-sm:nth-child(2) {
+            top: 0px;
+            left: -30px;
+
+            translate: 30px 66px;
+            scale: .5;
+        }
+
+
+        .btn-sm:nth-child(3) {
+            top: -30px;
+
+            translate: 0 96px;
+            scale: .5;
+        }
+
+        .btn-sm:nth-child(4) {
+            right: -30px;
+            top: 0px;
+
+            translate: -30px 66px;
+            scale: .5;
+        }
+
+        .btn-sm i {
+            color: var(--theme);
+        }
+
+        .btns:hover .btn-sm,
+        .btn-sm:hover {
+            translate: 0 0;
+            scale: 1;
+        }
+
+        .toasts {
+            position: fixed;
+            /* bottom: 10px; */
+            /* right: 10px; */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            bottom: 0;
+            right: 0;
+        }
+
+        .toast {
+            background-color: #fff;
+            border-radius: 5px;
+            /* padding: 1rem 2rem; */
+            margin: .5rem;
+
+            display: flex;
+            align-items: center;
+            padding: .5rem 1rem;
+            color: #929292;
+            font-size: 14px;
+            min-width: 500px;
+            box-shadow: 0px 2px 8px 0px rgba(99 99 99 / .2);
+            transform: translateX(150%);
+            animation: 4s ease-in-out slide-in;
+
+            border-left: 5px solid var(--theme);
+        }
+
+        .toast i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--theme);
+        }
+
+        .toast span {
+            display: block;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .toast.info {
+            /* color: rebeccapurple; */
+            /* border-left: 5px solid var(--primary-color); */
+        }
+
+        .toast.info i {
+            /* color: var(--primary-color); */
+        }
+
+        .toast.success {
+            /* color: green; */
+            /* border-left: 5px solid var(--success-color); */
+        }
+
+        .toast.success i {
+            /* color: var(--success-color); */
+        }
+
+        .toast.error {
+            /* color: red; */
+            /* border-left: 5px solid var(--error-color); */
+        }
+
+        .toast.error i {
+            /* color: var(--error-color); */
+        }
+
+        @keyframes slide-in {
+            0% {
+                transform: translateX(150%);
+            }
+
+            10%,
+            90% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toasts" id="toasts">
+    </div>
+    <div class="btns">
+        <button class="btn btn-mn" id="btn-notif" style="--theme: #929292;">Show Notification</button>
+        <button class="btn btn-sm" id="btn-success" style="--theme:var(--success-color)"><i
+                class="fas fa-check"></i></button>
+        <button class="btn btn-sm" id="btn-error" style="--theme:var(--error-color)"><i
+                class="fas fa-xmark"></i></button>
+        <button class="btn btn-sm" id="btn-info" style="--theme: dodgerblue;"><i class="fas fa-info"></i></button>
+    </div>
+    <script>
+        const button = document.getElementById("btn-notif")
+        const toasts = document.getElementById("toasts")
+
+        const messages = [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Phasellus at diam feugiat, pretium justo a, condimentum ex.",
+            "In felis eros, iaculis egestas porttitor quis, semper at magna.",
+            "Sed vel massa pellentesque, luctus ante non, viverra lacus."
+        ]
+
+        // const messages = [
+        //     "Message One",
+        //     "Message Two",
+        //     "Message Three",
+        //     "Message Four",
+        // ]
+
+        const types = [
+            "notif", "info", "success", "error",
+        ]
+        types.forEach(type => {
+            document.querySelector("#btn-" + type).addEventListener("click", () => createNotification(type))
+        })
+
+
+
+        function createNotification(type = null) {
+            const toast = document.createElement("div")
+            toast.className = "toast"
+            toast.classList.add(type ? type : "nofif")
+
+            let icon = "", title = "";
+            switch (type) {
+                case "success":
+                    icon = `<i class="fas fa-circle-check"></i>`
+                    title = "Success"
+                    toast.style.setProperty("--theme", "var(--success-color)")
+                    break;
+
+                case "error":
+                    icon = `<i class="fas fa-circle-xmark"></i>`
+                    title = "Error"
+                    toast.style.setProperty("--theme", "var(--error-color)")
+                    break;
+                case "info":
+                    icon = `<i class="fas fa-circle-info"></i>`
+                    title = "Info"
+                    toast.style.setProperty("--theme", "var(--primary-color)")
+                    break;
+                default:
+                    icon = `<i class="fas fa-circle-dot"></i>`
+                    title = "Default"
+                    toast.style.setProperty("--theme", "#929292")
+                    break;
+            }
+
+            toast.innerHTML = `${icon} <p><span>${title}</span>${getRandom(messages)}</p>`
+            toasts.appendChild(toast)
+
+            setTimeout(() => toast.remove(), 5000)
+        }
+
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)]
+        }
+
+        // button.addEventListener("click", () => createNotification())
+
+        // function createNotification(message = null, type = null) {
+        //     const notif = document.createElement("div")
+        //     notif.classList.add("toast")
+        //     notif.classList.add(type ? type : getRandomType())
+
+        //     notif.innerText = message ? message : getRandomMessage()
+
+        //     toasts.appendChild(notif)
+
+        //     setTimeout(() => notif.remove(), 3000)
+        // }
+
+        // function getRandomMessage() {
+        //     return messages[Math.floor(Math.random() * messages.length)]
+        // }
+        // function getRandomType() {
+        //     return types[Math.floor(Math.random() * types.length)]
+        // }
+    </script>
+</body>
+
+</html>
