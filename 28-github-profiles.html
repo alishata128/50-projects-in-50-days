@@ -189,7 +189,7 @@
 
         main::before {
             --line-width: 2px;
-            --line-color: rgba(0 0 0 /.3);
+            --line-color: var(--darker-accent);
             --size: 25px;
             content: "";
             position: absolute;
@@ -202,6 +202,7 @@
             z-index: -1;
             transform-style: flat;
             image-rendering: pixelated;
+            opacity: .5;
         }
 
 
@@ -264,6 +265,15 @@
             margin: 1rem;
             min-width: 100px;
             min-height: 20px;
+
+            display: -moz-box;
+            display: -webkit-box;
+            box-orient: vertical;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            line-clamp: 1;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
         }
 
         .user-info p {
@@ -278,8 +288,8 @@
             box-orient: vertical;
             -webkit-box-orient: vertical;
             -moz-box-orient: vertical;
-            line-clamp: 2;
-            -webkit-line-clamp: 2;
+            line-clamp: 1;
+            -webkit-line-clamp: 1;
             overflow: hidden;
         }
 
