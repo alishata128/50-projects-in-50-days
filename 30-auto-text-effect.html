@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-auto-text-effect</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            /* background-color: darksalmon; */
+            font-family: Poppins, sans-serif;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+
+            background-color: #eee;
+            color: dodgerblue;
+        }
+
+        .utils {
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .utils div {
+
+            background-color: #fff;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            margin: 1rem;
+            box-shadow: 0px 2px 8px 0px rgba(99 99 99 / .2);
+        }
+
+        input {
+            appearance: none;
+            width: 50px;
+            /* padding: 5px; */
+            /* font-size: 18px; */
+            /* background-color: darksalmon; */
+            text-align: center;
+            border: none;
+
+            color: dodgerblue;
+            font-weight: 700;
+            font-size: 16px;
+            font-family: Poppins, sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        #text {
+            position: absolute;
+            min-height: 1lh;
+        }
+
+        #text::after {
+            /* content: "_"; */
+            /* position: absolute; */
+            /* display: inline-block; */
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="text"></h1>
+    <div class="utils">
+        <div>
+            <label for="speed">Speed:</label>
+            <input type="number" name="speed" id="speed" value="5" min="1" max="10" step="1">
+        </div>
+
+        <div>
+            <label for="delay">Delay:</label>
+            <input type="number" name="delay" id="delay" value="1" min="1" max="10" step="1">
+        </div>
+    </div>
+
+    <script>
+        const
+            textEl = document.getElementById("text"),
+            speedEl = document.getElementById("speed"),
+            delayEl = document.getElementById("delay"),
+            text = "We Love Programming",
+            words = [text, "Coding is Incredible", "This is Auto Text Effect", "Made by Ali Shata"];
+
+        let
+            idx = 0,
+            speed = 300 / speedEl.value,
+            delay = 1000 / delayEl.value;
+
+
+        let isTyping = true
+
+        // writeText()
+
+        function writeText() {
+            if (isTyping) {
+                // textEl.innerText = text.slice(0, idx) + "_"
+                textEl.innerText += text.charAt(idx)
+                idx++
+                if (idx >= text.length) {
+                    isTyping = false
+                    idx = text.length
+                }
+                // setTimeout(writeText, speed)
+            } else {
+                textEl.innerText = textEl.innerText.slice(0, idx)
+                setTimeout(() => idx--, 1000)
+                if (idx < 0) {
+                    isTyping = true
+                    idx = 0
+                }
+
+            }
+        }
+
+        setInterval(writeText, speed)
+
+        // let isTyping = true
+        // let word_idx = 0
+        // let i = 0
+
+        function typer(delay) {
+            if (isTyping) {
+                textEl.textContent += words[word_idx].charAt(i)
+                i++
+                if (i >= words[word_idx].length) {
+                    isTyping = false
+                    i = words[word_idx].length
+                }
+            } else {
+                textEl.textContent = textEl.textContent.slice(0, i)
+                setTimeout(() => i--, delay)
+                if (i < 0) {
+                    isTyping = true
+                    i = 0
+                    word_idx++
+                    if (word_idx >= words.length) word_idx = 0
+                }
+            }
+        }
+
+        // let interval = setInterval(() => typer(delay), speed)
+
+        speedEl.addEventListener("input", (e) => {
+            speed = 300 / e.target.value
+            clearInterval(interval)
+            textEl.textContent = ""
+            interval = setInterval(() => typer(delay), speed)
+        })
+
+        delayEl.addEventListener("input", (e) => {
+            delay = 300 / e.target.value
+            clearInterval(interval)
+            textEl.textContent = ""
+            interval = setInterval(() => typer(delay), speed)
+
+            console.log(delay)
+        })
+
+
+
+    </script>
+</body>
+
+</html>

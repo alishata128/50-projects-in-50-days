@@ -492,7 +492,10 @@
             width = 150,
             height = 150,
             image = new Image(width, height);
-        image.crossOrigin = "Anonymous"
+
+        canvas.width = width;
+        canvas.height = height;
+        image.crossOrigin = "Anonymous";
 
 
 
